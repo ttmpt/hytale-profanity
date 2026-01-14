@@ -11,7 +11,18 @@ This mod comes with a blacklist of words based on [LDNOOBW](https://github.com/L
 
 ## Configuration
 
-**Default configuration:**
+**Action**: possible values are "obfuscate" and "filter"  
+Obfuscate will replace bad words with "***", filter will stop the entire message from being sent.
+
+**FilterResponse**: Response message to the player when Action is set to "filter".
+
+**Whitelist**: Phrases that are in the default blacklist but should be allowed.
+
+**Blacklist**: List of disallowed phrases that will be APPENDED to the default blacklist.
+
+**Languages**: Specify which language word lists to load from the included LDNOOBW data.
+
+### Default configuration
 
 ```json
 {
