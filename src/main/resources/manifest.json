@@ -1,0 +1,19 @@
+{
+  "Group": "ttmpt",
+  "Name": "Profanity",
+  "Version": "0.1.0",
+  "Description": "Obfuscate, filter, mute or block chat messages with bad words.",
+  "Authors": [
+    {
+      "Name": "ttmpt",
+      "Email": "ttmpt@gmx.net"
+    }
+  ],
+  "Main": "net.ttmpt.Profanity",
+  "ServerVersion": "*",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "IncludesAssetPack": false,
+  "SubPlugins": []
+}
