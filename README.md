@@ -34,7 +34,10 @@ By default, this is just "***", but you can configure it to use "banana" and "ap
   "ObscureReplacement": ["***"],
   "Whitelist": [],
   "Blacklist": [],
-  "Languages": ["cs", "da", "nl", "en", "fil", "fi", "fr", "de", "hi", "hu", "it", "ja", "no", "fa", "pl", "pt", "ru", "es", "sv", "tr"]
+  "Languages": [
+    "cs", "da", "de", "en", "es", "fa", "fi", "fil", "fr", "hi",
+    "hu", "it", "nl", "no", "pl", "pt", "ru", "sv", "tr"
+  ]
 }
 ```
 
