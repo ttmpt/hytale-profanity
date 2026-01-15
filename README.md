@@ -12,7 +12,7 @@ This mod comes with a curated blacklist of words based on [LDNOOBW](https://gith
 ## Configuration
 
 **Action**: possible values are "obscure" and "filter"  
-Obscure will replace bad words with "***", filter will stop the entire message from being sent.
+Obscure will replace bad words (see ObscureReplacement below), filter will stop the entire message from being sent.
 
 **FilterResponse**: Response message to the player when Action is set to "filter".
 
