@@ -13,12 +13,12 @@ import javax.annotation.Nonnull;
 
 public class WordList {
     private static Set<String> blacklist = new HashSet<>();
+    private static Set<String> blacklistLong = new HashSet<>();
     private static boolean initialized = false;
 
     private static final Set<String> SUPPORTED_LANGUAGES = Set.of(
-        "ar", "cs", "da", "de", "en", "eo", "es", "fa", "fi", "fil",
-        "fr", "hi", "hu", "it", "ja", "kab", "ko", "nl", "no", "pl",
-        "pt", "ru", "sv", "th", "tlh", "tr", "zh"
+        "cs", "da", "nl", "en", "fil", "fi", "fr", "de", "hi", "hu", "it",
+        "ja", "no", "fa", "pl", "pt", "ru", "es", "sv", "tr"
     );
 
     public static void initialize(@Nonnull Config<ProfanityConfig> config) {
@@ -43,6 +43,13 @@ public class WordList {
         for (String phrase : config.get().getWhitelist()) {
             blacklist.remove(normalize(phrase).replaceAll(" ", ""));
         }
+
+        // Precalculate words with length >= 5
+        for (String word : blacklist) {
+            if (word.length() >= 5) {
+                blacklistLong.add(word);
+            }
+        }
     }
 
     private static void loadLanguage(@Nonnull String lang) {
@@ -58,7 +65,11 @@ public class WordList {
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) continue;
-                blacklist.add(normalize(line).replaceAll(" ", ""));
+                String normalized = normalize(line).replaceAll(" ", "");
+                blacklist.add(normalized);
+                if (normalized.length() >= 5) {
+                    blacklistLong.add(normalized);
+                }
             }
         } catch (IOException e) {
             Profanity.logToFile("Error loading profanity list: " + e.getMessage());
@@ -87,5 +98,14 @@ public class WordList {
 
     public static boolean isBlacklisted(@Nonnull String phrase) {
         return blacklist.contains(phrase);
+    }
+
+    public static boolean containsProfanity(@Nonnull String word) {
+        for (String profanity : blacklistLong) {
+            if (word.contains(profanity)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

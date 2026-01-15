@@ -56,6 +56,15 @@ public class PlayerChatHandler {
                 return true;
             }
 
+            if (containsFuck(candidate)) {
+                return true;
+            }
+
+            // Check for profane words without spaces in long words
+            if (candidate.length() > 10 && WordList.containsProfanity(candidate)) {
+                return true;
+            }
+
             StringBuilder combined = new StringBuilder(candidate);
             for (int j = 1; j < MAX_WORD_LENGTH && i + j < tokens.length; j++) {
                 combined.append(tokens[i + j]);
@@ -79,8 +88,15 @@ public class PlayerChatHandler {
         boolean modified = false;
 
         for (int i = 0; i < tokens.length; i++) {
-            if (WordList.isBlacklisted(tokens[i])) {
-                originalTokens[i] = getObfuscateReplacement();
+            if (WordList.isBlacklisted(tokens[i]) || containsFuck(tokens[i])) {
+                originalTokens[i] = getObscureReplacement();
+                modified = true;
+                continue;
+            }
+
+            // Check for profane words without spaces in long words
+            if (tokens[i].length() > 10 && WordList.containsProfanity(tokens[i])) {
+                originalTokens[i] = getObscureReplacement();
                 modified = true;
                 continue;
             }
@@ -91,7 +107,7 @@ public class PlayerChatHandler {
 
                 if (WordList.isBlacklisted(combined.toString())) {
                     for (int k = i; k <= i + j; k++) {
-                        originalTokens[k] = getObfuscateReplacement();
+                        originalTokens[k] = getObscureReplacement();
                     }
                     modified = true;
                     i += j; // skip consumed tokens
@@ -103,8 +119,15 @@ public class PlayerChatHandler {
         return modified ? String.join(" ", originalTokens) : null;
     }
 
-    private String getObfuscateReplacement() {
-        String[] replacements = config.get().getObfuscateReplacement();
+    /**
+     * Special treatment, because its commonly used and easy to filter.
+     */
+    private boolean containsFuck(String word) {
+        return word.contains("fuck") || word.contains("f*ck") || word.contains("f***");
+    }
+
+    private String getObscureReplacement() {
+        String[] replacements = config.get().getObscureReplacement();
 
         int index = random.nextInt(replacements.length);
 

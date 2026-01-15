@@ -12,9 +12,9 @@ public class ProfanityConfig {
         .append(new KeyedCodec<String>("FilterResponse", Codec.STRING),
             (config, string, extraInfo) -> config.filterResponse = string,
             (config, extraInfo) -> config.filterResponse).add()
-        .append(new KeyedCodec<String[]>("ObfuscateReplacement", Codec.STRING_ARRAY),
-            (config, strings, extraInfo) -> config.obfuscateReplacement = validateObfuscateReplacement(strings),
-            (config, extraInfo) -> config.obfuscateReplacement).add()
+        .append(new KeyedCodec<String[]>("ObscureReplacement", Codec.STRING_ARRAY),
+            (config, strings, extraInfo) -> config.obscureReplacement = validateObscureReplacement(strings),
+            (config, extraInfo) -> config.obscureReplacement).add()
         .append(new KeyedCodec<String[]>("Whitelist", Codec.STRING_ARRAY),
             (config, strings, extraInfo) -> config.whitelist = strings,
             (config, extraInfo) -> config.whitelist).add()
@@ -28,7 +28,7 @@ public class ProfanityConfig {
 
     private String action = "filter";
     private String filterResponse = "Your message was blocked due to offensive language.";
-    private String[] obfuscateReplacement = new String[]{"***"};
+    private String[] obscureReplacement = new String[]{"***"};
     private String[] whitelist = new String[]{};
     private String[] blacklist = new String[]{};
     private String[] languages = new String[]{};
@@ -43,8 +43,8 @@ public class ProfanityConfig {
         return filterResponse;
     }
 
-    public String[] getObfuscateReplacement() {
-        return obfuscateReplacement;
+    public String[] getObscureReplacement() {
+        return obscureReplacement;
     }
 
     public String[] getWhitelist() {
@@ -62,14 +62,14 @@ public class ProfanityConfig {
     private static String validateAction(String string) {
         string = string.toLowerCase();
 
-        if (string.equals("filter") || string.equals("obfuscate")) {
+        if (string.equals("filter") || string.equals("obscure")) {
             return string;
         }
 
         return "filter";
     }
 
-    private static String[] validateObfuscateReplacement(String[] strings){
+    private static String[] validateObscureReplacement(String[] strings){
         if (strings.length == 0) {
             return new String[]{"***"};
         }

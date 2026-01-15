@@ -1,20 +1,23 @@
 # Profanity
 
-Obfuscate, filter, mute or block chat messages with bad words.
+Obscure, filter, mute or block chat messages with bad words.
 
 Profanity is a lightweight Hytale mod that enforces chat hygiene by detecting and handling offensive or unwanted language in real time.
 
 What it does is simple: match words you do not want, and apply predictable, configurable consequences.  
 This mod is designed for servers that want deterministic behavior, low overhead, and full control over how chat moderation is enforced.
 
-This mod comes with a blacklist of words based on [LDNOOBW](https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words).
+This mod comes with a curated blacklist of words based on [LDNOOBW](https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words).
 
 ## Configuration
 
-**Action**: possible values are "obfuscate" and "filter"  
-Obfuscate will replace bad words with "***", filter will stop the entire message from being sent.
+**Action**: possible values are "obscure" and "filter"  
+Obscure will replace bad words with "***", filter will stop the entire message from being sent.
 
 **FilterResponse**: Response message to the player when Action is set to "filter".
+
+**ObscureReplacement**: A random word will be chosen from this list to replace offensive phrases.  
+By default, this is just "***", but you can configure it to use "banana" and "apple" instead!
 
 **Whitelist**: Phrases that are in the default blacklist but should be allowed.
 
@@ -28,9 +31,10 @@ Obfuscate will replace bad words with "***", filter will stop the entire message
 {
   "Action": "filter",
   "FilterResponse": "Your message was blocked due to offensive language.",
+  "ObscureReplacement": ["***"],
   "Whitelist": [],
   "Blacklist": [],
-  "Languages": ["ar", "zh", "cs", "da", "nl", "en", "eo", "fil", "fi", "fr", "de", "hi", "hu", "it", "ja", "kab", "tlh", "ko", "no", "fa", "pl", "pt", "ru", "es", "sv", "th", "tr"]
+  "Languages": ["cs", "da", "nl", "en", "fil", "fi", "fr", "de", "hi", "hu", "it", "ja", "no", "fa", "pl", "pt", "ru", "es", "sv", "tr"]
 }
 ```
 
@@ -38,13 +42,10 @@ Obfuscate will replace bad words with "***", filter will stop the entire message
 
 | Name            | Code            |
 | --------------- | --------------- |
-| Arabic          | ar              |
-| Chinese         | zh              |
 | Czech           | cs              |
 | Danish          | da              |
 | Dutch           | nl              |
 | English         | en              |
-| Esperanto       | eo              |
 | Filipino        | fil             |
 | Finnish         | fi              |
 | French          | fr              |
@@ -52,10 +53,6 @@ Obfuscate will replace bad words with "***", filter will stop the entire message
 | Hindi           | hi              |
 | Hungarian       | hu              |
 | Italian         | it              |
-| Japanese        | ja              |
-| Kabyle          | kab             |
-| Klingon         | tlh             |
-| Korean          | ko              |
 | Norwegian       | no              |
 | Persian         | fa              |
 | Polish          | pl              |
@@ -63,5 +60,4 @@ Obfuscate will replace bad words with "***", filter will stop the entire message
 | Russian         | ru              |
 | Spanish         | es              |
 | Swedish         | sv              |
-| Thai            | th              |
 | Turkish         | tr              |
