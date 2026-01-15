@@ -7,8 +7,10 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.util.Config;
 import javax.annotation.Nullable;
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class PlayerChatHandler {
+    private Random random = new Random();
     private static final int MAX_WORD_LENGTH = 4;
     private Config<ProfanityConfig> config;
 
@@ -78,7 +80,7 @@ public class PlayerChatHandler {
 
         for (int i = 0; i < tokens.length; i++) {
             if (WordList.isBlacklisted(tokens[i])) {
-                originalTokens[i] = "***";
+                originalTokens[i] = getObfuscateReplacement();
                 modified = true;
                 continue;
             }
@@ -89,7 +91,7 @@ public class PlayerChatHandler {
 
                 if (WordList.isBlacklisted(combined.toString())) {
                     for (int k = i; k <= i + j; k++) {
-                        originalTokens[k] = "***";
+                        originalTokens[k] = getObfuscateReplacement();
                     }
                     modified = true;
                     i += j; // skip consumed tokens
@@ -99,6 +101,14 @@ public class PlayerChatHandler {
         }
 
         return modified ? String.join(" ", originalTokens) : null;
+    }
+
+    private String getObfuscateReplacement() {
+        String[] replacements = config.get().getObfuscateReplacement();
+
+        int index = random.nextInt(replacements.length);
+
+        return replacements[index];
     }
 
     public void register(@Nonnull EventRegistry eventRegistry) {
