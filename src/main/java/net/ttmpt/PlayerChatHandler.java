@@ -19,10 +19,7 @@ public class PlayerChatHandler {
     }
 
     public void onPlayerChat(@Nonnull PlayerChatEvent event) {
-        Profanity.logToFile("handling");
-
         String message = event.getContent();
-
         String action = config.get().getAction();
 
         if (action.equals("filter")) {

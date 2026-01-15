@@ -17,8 +17,8 @@ public class WordList {
     private static boolean initialized = false;
 
     private static final Set<String> SUPPORTED_LANGUAGES = Set.of(
-        "cs", "da", "nl", "en", "fil", "fi", "fr", "de", "hi", "hu", "it",
-        "ja", "no", "fa", "pl", "pt", "ru", "es", "sv", "tr"
+        "cs", "da", "de", "en", "es", "fa", "fi", "fil", "fr", "hi",
+        "hu", "it", "nl", "no", "pl", "pt", "ru", "sv", "tr"
     );
 
     public static void initialize(@Nonnull Config<ProfanityConfig> config) {
@@ -55,7 +55,6 @@ public class WordList {
     private static void loadLanguage(@Nonnull String lang) {
         InputStream is = WordList.class.getClassLoader().getResourceAsStream("profanity/" + lang);
         if (is == null) {
-            Profanity.logToFile("Warning: profanity blacklist resource not found");
             initialized = true;
             return;
         }
@@ -72,7 +71,7 @@ public class WordList {
                 }
             }
         } catch (IOException e) {
-            Profanity.logToFile("Error loading profanity list: " + e.getMessage());
+            System.out.println("Error loading profanity list: " + e.getMessage());
         }
     }
 
