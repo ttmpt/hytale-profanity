@@ -11,7 +11,7 @@ This mod comes with a blacklist of words based on [LDNOOBW](https://github.com/L
 
 ## Configuration
 
-**Action**: possible values are "obfuscate" and "filter"  
+**Action**: possible values are "obscure" and "filter"  
 Obfuscate will replace bad words with "***", filter will stop the entire message from being sent.
 
 **FilterResponse**: Response message to the player when Action is set to "filter".
