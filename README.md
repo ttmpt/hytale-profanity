@@ -23,7 +23,7 @@ By default, this is just "***", but you can configure it to use "banana" and "ap
 
 **Blacklist**: List of disallowed phrases that will be APPENDED to the default blacklist.
 
-**Languages**: Specify which language word lists to load from the included LDNOOBW data.
+**EnabledBuiltinBlacklists**: Specify which builtin language word lists to use from the included LDNOOBW data.
 
 ### Default configuration
 
@@ -34,14 +34,14 @@ By default, this is just "***", but you can configure it to use "banana" and "ap
   "ObscureReplacement": ["***"],
   "Whitelist": [],
   "Blacklist": [],
-  "Languages": [
+  "EnabledBuiltinBlacklists": [
     "cs", "da", "de", "en", "es", "fa", "fi", "fil", "fr", "hi",
     "hu", "it", "nl", "no", "pl", "pt", "ru", "sv", "tr"
   ]
 }
 ```
 
-## Supported languages
+## Built-in blacklists
 
 | Name            | Code            |
 | --------------- | --------------- |
