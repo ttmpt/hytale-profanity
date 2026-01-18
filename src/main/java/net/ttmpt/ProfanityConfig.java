@@ -21,9 +21,9 @@ public class ProfanityConfig {
         .append(new KeyedCodec<String[]>("Blacklist", Codec.STRING_ARRAY),
             (config, strings, extraInfo) -> config.blacklist = strings,
             (config, extraInfo) -> config.blacklist).add()
-        .append(new KeyedCodec<String[]>("Languages", Codec.STRING_ARRAY),
-            (config, strings, extraInfo) -> config.languages = strings,
-            (config, extraInfo) -> config.languages).add()
+        .append(new KeyedCodec<String[]>("EnabledBuiltinBlacklists", Codec.STRING_ARRAY),
+            (config, strings, extraInfo) -> config.enabledBuiltinBlacklists = strings,
+            (config, extraInfo) -> config.enabledBuiltinBlacklists).add()
         .build();
 
     private String action = "filter";
@@ -31,32 +31,32 @@ public class ProfanityConfig {
     private String[] obscureReplacement = new String[]{"***"};
     private String[] whitelist = new String[]{};
     private String[] blacklist = new String[]{};
-    private String[] languages = new String[]{};
+    private String[] enabledBuiltinBlacklists = WordList.BUILTIN_BLACKLISTS.toArray(String[]::new);
 
     public ProfanityConfig() {}
 
-    public String getAction() {
+    protected String getAction() {
         return action;
     }
 
-    public String getFilterResponse() {
+    protected String getFilterResponse() {
         return filterResponse;
     }
 
-    public String[] getObscureReplacement() {
+    protected String[] getObscureReplacement() {
         return obscureReplacement;
     }
 
-    public String[] getWhitelist() {
+    protected String[] getWhitelist() {
         return whitelist;
     }
 
-    public String[] getBlacklist() {
+    protected String[] getBlacklist() {
         return blacklist;
     }
 
-    public String[] getLanguages() {
-        return languages;
+    protected String[] getEnabledBuiltinBlacklists() {
+        return enabledBuiltinBlacklists;
     }
 
     private static String validateAction(String string) {

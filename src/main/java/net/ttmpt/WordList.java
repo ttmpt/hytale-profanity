@@ -15,24 +15,22 @@ public class WordList {
     private static Set<String> blacklist = new HashSet<>();
     private static Set<String> blacklistLong = new HashSet<>();
     private static boolean initialized = false;
+    private static boolean isFuckBlacklisted = false;
 
-    private static final Set<String> SUPPORTED_LANGUAGES = Set.of(
+    protected static final Set<String> BUILTIN_BLACKLISTS = Set.of(
         "cs", "da", "de", "en", "es", "fa", "fi", "fil", "fr", "hi",
         "hu", "it", "nl", "no", "pl", "pt", "ru", "sv", "tr"
     );
 
-    public static void initialize(@Nonnull Config<ProfanityConfig> config) {
+    protected static void initialize(@Nonnull Config<ProfanityConfig> config) {
         if (initialized) return;
         initialized = true;
 
-        Set<String> requestedLanguages = new HashSet<>(Arrays.asList(config.get().getLanguages()));
-        if (requestedLanguages.isEmpty()) {
-            requestedLanguages = SUPPORTED_LANGUAGES;
-        }
+        Set<String> requestedBlacklists = new HashSet<>(Arrays.asList(config.get().getEnabledBuiltinBlacklists()));
 
-        for (String lang : requestedLanguages) {
-            if (SUPPORTED_LANGUAGES.contains(lang)) {
-                loadLanguage(lang);
+        for (String lang_code : requestedBlacklists) {
+            if (BUILTIN_BLACKLISTS.contains(lang_code)) {
+                loadBuiltinBlacklist(lang_code);
             }
         }
 
@@ -50,10 +48,18 @@ public class WordList {
                 blacklistLong.add(word);
             }
         }
+
+        if (blacklist.contains("fuck")) {
+            isFuckBlacklisted = true;
+        }
     }
 
-    private static void loadLanguage(@Nonnull String lang) {
-        InputStream is = WordList.class.getClassLoader().getResourceAsStream("profanity/" + lang);
+    protected static boolean getIsFuckBlacklisted() {
+        return isFuckBlacklisted;
+    }
+
+    private static void loadBuiltinBlacklist(@Nonnull String lang_code) {
+        InputStream is = WordList.class.getClassLoader().getResourceAsStream("profanity/" + lang_code);
         if (is == null) {
             initialized = true;
             return;
@@ -75,7 +81,7 @@ public class WordList {
         }
     }
 
-    public static String normalize(@Nonnull String message) {
+    protected static String normalize(@Nonnull String message) {
         message = message.toLowerCase();
         message = message.replace('$', 's')
                          .replace('§', 's')
@@ -95,11 +101,11 @@ public class WordList {
         return message;
     }
 
-    public static boolean isBlacklisted(@Nonnull String phrase) {
+    protected static boolean isBlacklisted(@Nonnull String phrase) {
         return blacklist.contains(phrase);
     }
 
-    public static boolean containsProfanity(@Nonnull String word) {
+    protected static boolean containsProfanity(@Nonnull String word) {
         for (String profanity : blacklistLong) {
             if (word.contains(profanity)) {
                 return true;

@@ -53,7 +53,7 @@ public class PlayerChatHandler {
                 return true;
             }
 
-            if (containsFuck(candidate)) {
+            if (containsBlacklistedFuck(candidate)) {
                 return true;
             }
 
@@ -85,7 +85,7 @@ public class PlayerChatHandler {
         boolean modified = false;
 
         for (int i = 0; i < tokens.length; i++) {
-            if (WordList.isBlacklisted(tokens[i]) || containsFuck(tokens[i])) {
+            if (WordList.isBlacklisted(tokens[i]) || containsBlacklistedFuck(tokens[i])) {
                 originalTokens[i] = getObscureReplacement();
                 modified = true;
                 continue;
@@ -119,7 +119,11 @@ public class PlayerChatHandler {
     /**
      * Special treatment, because its commonly used and easy to filter.
      */
-    private boolean containsFuck(String word) {
+    private boolean containsBlacklistedFuck(String word) {
+        if (!WordList.getIsFuckBlacklisted()) {
+            return false;
+        }
+
         return word.contains("fuck") || word.contains("f*ck") || word.contains("f***");
     }
 
@@ -131,7 +135,7 @@ public class PlayerChatHandler {
         return replacements[index];
     }
 
-    public void register(@Nonnull EventRegistry eventRegistry) {
+    protected void register(@Nonnull EventRegistry eventRegistry) {
         eventRegistry.registerGlobal(PlayerChatEvent.class, this::onPlayerChat);
     }
 }
